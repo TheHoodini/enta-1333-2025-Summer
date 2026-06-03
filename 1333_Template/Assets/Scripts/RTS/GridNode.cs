@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public struct GridNode 
 {
     public string Name;
