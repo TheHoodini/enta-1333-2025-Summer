@@ -62,22 +62,24 @@ public class CameraController : MonoBehaviour
         transform.position += movement.normalized * edgeMoveSpeed * Time.deltaTime;
     }
 
-    private float currentZoom = 0f;
     void HandleZoom()
     {
         float scroll = Input.mouseScrollDelta.y;
 
         if (scroll != 0)
         {
-            float zoomAmount = scroll * zoomSpeed * Time.deltaTime;
+            float yDelta = -scroll * zoomSpeed * Time.deltaTime;
+            float newY = transform.position.y + yDelta;
 
-            currentZoom = Mathf.Clamp(
-                currentZoom + zoomAmount,
-                minZoom,
-                maxZoom
-            );
+            if (newY < minZoom || newY > maxZoom)
+                return;
 
-            transform.position += transform.forward * zoomAmount;
+            Vector3 newPosition = transform.position;
+
+            newPosition.z += scroll * zoomSpeed * Time.deltaTime;
+            newPosition.y = newY;
+
+            transform.position = newPosition;
         }
     }
 }
